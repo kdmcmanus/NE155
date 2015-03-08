@@ -1,4 +1,4 @@
-(*The following is a Gauss-Seidel interation algorithm written in Mathematica.  You can directly copy and paste into Mathematica and run it.  I have included a sample matrix and called the function to run to a tolerance of 10^-6*) 
+(*The following is a Jacobi interation algorithm written in Mathematica.  You can directly copy and paste into Mathematica and run it.  I have included a sample matrix and called the function to run to a tolerance of 10^-6*) 
 
 Jacobi[A0_, B0_, P0_, \[Epsilon]_, max_] :=
   
