@@ -1,0 +1,47 @@
+(*The following is a Gauss-Seidel interation algorithm written in Mathematica.  You can directly copy and paste into Mathematica and run it.  I have included a sample matrix and called the function to run to a tolerance of 10^-6*) 
+
+GaussSeidel[A0_, B0_, P0_, \[Epsilon]_, max_] :=
+  
+  Module[{A = N[A0], B = N[B0], e, i, j, k = 0, n = Length[P0], 
+    P = P0, Pold = P0},
+   Print[Subscript["P", 0], "=", P];
+   e = 1;
+   While[And[k < max, e > \[Epsilon]],
+    Pold = P;
+    For[i = 1, i <= n, i++,
+     
+\!\(\*SubscriptBox[\(P\), \(\(\[LeftDoubleBracket]\)\(i\)\(\
+\[RightDoubleBracket]\)\)]\) = 1/
+\!\(\*SubscriptBox[\(A\), \(\(\[LeftDoubleBracket]\)\(i, 
+        i\)\(\[RightDoubleBracket]\)\)]\) (
+\!\(\*SubscriptBox[\(B\), \(\(\[LeftDoubleBracket]\)\(i\)\(\
+\[RightDoubleBracket]\)\)]\) + 
+\!\(\*SubscriptBox[\(A\), \(\(\[LeftDoubleBracket]\)\(i, 
+           i\)\(\[RightDoubleBracket]\)\)]\) 
+\!\(\*SubscriptBox[\(P\), \(\(\[LeftDoubleBracket]\)\(i\)\(\
+\[RightDoubleBracket]\)\)]\) - \!\(
+\*UnderoverscriptBox[\(\[Sum]\), \(j = 1\), \(n\)]\(
+\*SubscriptBox[\(A\), \(\([[\)\(i, j\)\(]]\)\)] 
+\*SubscriptBox[\(P\), \(\([[\)\(j\)\(]]\)\)]\)\))];
+    e = \[Sqrt]((P - Pold).(P - Pold));
+    Print[Subscript["P", k + 1], "=", P];
+    
+    k = k + 1;];
+   Return[P];];
+   
+A = SparseArray[{{l_, l_} -> 
+    4., {l_, m_} /; Abs[l - m] == 1 -> -1.}, {5, 5}, 0.]; B = 
+ Table[100, {l, 5}];
+vars = {"\!\(\*SubscriptBox[\(x\), \(1\)]\)", 
+   "\!\(\*SubscriptBox[\(x\), \(2\)]\)", 
+   "\!\(\*SubscriptBox[\(x\), \(3\)]\)", 
+   "\!\(\*SubscriptBox[\(x\), \(4\)]\)", 
+   "\!\(\*SubscriptBox[\(x\), \(5\)]\)"};
+Print["Solve the system"];
+Print[MatrixForm[A], MatrixForm[vars], "=", MatrixForm[B]];
+   
+P = {0, 0, 0, 0, 0};
+X = GaussSeidel[A, B, P, .000001, 100];
+Print["A X =", MatrixForm[A.X], "\[TildeTilde]", MatrixForm[B], 
+  "= B"];
+   
